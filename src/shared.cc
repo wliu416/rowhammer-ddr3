@@ -32,13 +32,13 @@ uint64_t get_offset(uint64_t addr) {
  *
  */
 void setup_PPN_VPN_map(void * mem_map, uint64_t memory_size) {
-  // TODO - Exercise 1-3
+
   for (uint64_t i = 0; i < memory_size; i += HUGE_PAGE_SIZE) {
-        uint64_t * addr = (uint64_t *) ((uint8_t *) (mem_map) + i);
-        uint64_t vpn = get_frame_number((uint64_t)addr);
-        uint64_t ppn = get_frame_number(virt_to_phys((uint64_t)addr));
-        PPN_VPN_map[ppn] = vpn;
-    } 
+    uint64_t * addr = (uint64_t *) ((uint8_t *) (mem_map) + i);
+    uint64_t virtual_page_number = get_frame_number((uint64_t)addr);
+    uint64_t physical_page_number = get_frame_number(virt_to_phys((uint64_t)addr));
+    PPN_VPN_map[physical_page_number] = virtual_page_number;
+  } 
 }
 
 /*
@@ -123,13 +123,7 @@ uint64_t phys_to_virt(uint64_t phys_addr) {
   uint64_t file_offset = get_offset(phys_addr);
   uint64_t virt_page_number;
 
- 
-  try {
-      virt_page_number = PPN_VPN_map.at(phys_page_number);
-    }
-    catch (const std::out_of_range&) {
-      return 0;
-    }
+  virt_page_number = PPN_VPN_map[phys_page_number];
   
   if (virt_page_number == 0) {
     return 0;
@@ -150,7 +144,21 @@ uint64_t phys_to_virt(uint64_t phys_addr) {
  *
  */
 uint64_t measure_bank_latency(uint64_t addr_A, uint64_t addr_B) {
-  // TODO: Exercise 3-1
-  return 0;
+  clflush(addr_A);
+  clflush(addr_B);
+
+  maccess(addr_A);  
+  clflush(addr_A);
+
+  lfence();
+  uint32_t t1 = rdtscp();
+
+  (*addr_A);
+  (*addr_B);
+
+  lfence();
+  uint32_t t2 = rdtscp();
+
+  return (uint64_t) t2-t1;
 }
 
