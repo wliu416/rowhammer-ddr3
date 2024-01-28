@@ -20,10 +20,10 @@ int main(int argc, char **argv) {
     }
 
     // Follow Shubh's output file format
-    printf("Total Number of addresses accessesed: %ld\n", num_iterations);
+    printf("Total Number of pairs: %ld\n", num_iterations);
   
     puts("-------------------------------------------------------");
-    printf("Latency(cycles)\t\tAddress-Count \n");
+    printf("Latency(cycles)\t\tNumber-of-Address-Pair \n");
     puts("-------------------------------------------------------");
 
     for (int i=0; i<100 ;i++){

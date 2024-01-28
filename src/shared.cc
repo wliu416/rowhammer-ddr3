@@ -119,9 +119,9 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
 
 uint64_t phys_to_virt(uint64_t phys_addr) {
   // TODO: Exercise 1-3
-  uint64_t phys_page_number = phys_addr / HUGE_PAGE_SIZE;
+  uint64_t phys_page_number = get_frame_number(phys_addr);
   uint64_t file_offset = get_offset(phys_addr);
-  uint64_t virt_page_number;
+  uint64_t virt_page_number = 0;
 
   virt_page_number = PPN_VPN_map[phys_page_number];
   
