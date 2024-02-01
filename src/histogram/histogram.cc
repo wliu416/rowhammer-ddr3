@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
-    uint64_t buffer_size_bytes = BUFFER_SIZE_MB * 1024 * 1024;
+    uint64_t buffer_size_bytes = (uint64_t) BUFFER_SIZE_MB * (1024*1024);
     allocated_mem = allocate_pages(buffer_size_bytes);
     uint64_t* bank_lat_histogram = (uint64_t*) calloc((100+1), sizeof(uint64_t));
     
