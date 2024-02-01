@@ -1,6 +1,6 @@
 CC=g++
 
-all: bin bin/histogram_alt  bin/histogram
+all: bin bin/histogram bin/bank_mapper
 clean:
 	rm -rf bin/
 

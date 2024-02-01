@@ -90,10 +90,10 @@ void verify_same_bank(uint64_t samples, uint64_t bank_no) {
         uint64_t time = measure_bank_latency(vaddr1 , vaddr2);
 
         if (time >= ROW_BUFFER_HIT_LATENCY && time < ROW_BUFFER_CONFLICT_LATENCY) {
-            fprintf(stdout, "A: {%llu}, B: {%llu}, Latency: {%llu}. NOT IN SAME BANK DESPITE BEING SORTED AS SO", paddr_1, paddr_2, time);
+            fprintf(stdout, "A: {%lu}, B: {%lu}, Latency: {%lu}. NOT IN SAME BANK DESPITE BEING SORTED AS SO", paddr_1, paddr_2, time);
         }
         if (time >= ROW_BUFFER_CONFLICT_LATENCY) {
-            fprintf(stdout, "A: {%llu}, B: {%llu}, Latency: {%llu}. IN SAME BANK AND BEING SORTED AS SO", paddr_1, paddr_2, time);
+            fprintf(stdout, "A: {%lu}, B: {%lu}, Latency: {%lu}. IN SAME BANK AND BEING SORTED AS SO", paddr_1, paddr_2, time);
         }
 
     }
@@ -106,7 +106,7 @@ void verify_same_bank(uint64_t samples, uint64_t bank_no) {
 
 int main(int argc, char **argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
-    uint64_t mem_size = 1.8 * BUFFER_SIZE_MB * 1024 * 1024;
+    uint64_t mem_size = (uint64_t) 1.8 * BUFFER_SIZE_MB * 1024 * 1024;
     allocated_mem = allocate_pages(mem_size);
     setup_PPN_VPN_map(allocated_mem, mem_size);
 
