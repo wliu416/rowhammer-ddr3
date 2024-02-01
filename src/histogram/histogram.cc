@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
             time += measure_bank_latency((uint64_t)base, (uint64_t)(base + i * ROW_SIZE));
         }
         double avg_time = (double) (time / (float) SAMPLES);
-        bank_lat_histogram[avg_time / 10]++;
+        bank_lat_histogram[(int) (avg_time / 10)]++;
     }
 
     // Follow Shubh's output file format
@@ -27,8 +27,8 @@ int main(int argc, char **argv) {
     puts("-------------------------------------------------------");
 
     for (int i=0; i<100 ;i++){
-        printf("[%d-%d)   \t %15ld \n",
+        printf("[%d-%d)   \t %15llu \n",
 	    i*10, i*10 + 10, bank_lat_histogram[i]);
     }
-    printf("%d+   \t %15ld \n",100*10, bank_lat_histogram[NUM_LAT_BUCKETS]);
+    printf("%d+   \t %15llu \n",100*10, bank_lat_histogram[101]);
 }

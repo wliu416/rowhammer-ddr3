@@ -10,7 +10,7 @@
 // Number of offset bits
 #define PAGE_OFFSET_BITS 12
 
-// Size of DRAM row (1 bank)
+// Size of DRAM row in bytes (1 bank)
 #define ROW_SIZE (8192)
 
 // Number of hammers to perform per iteration
@@ -23,5 +23,27 @@
 // TODO: RUN HISTOGRAM!
 // Latency Threshold for Row Buffer Hit
 #define ROW_BUFFER_HIT_LATENCY (290)
+
+
+
+// ROW BITS: DETERMINED BY decode-dimm.
+#define ADDR_ROW_BITS (16)
+
+// BIT XOR BITS: May need to be guesstimated.
+#define ADDR_BIT_XOR_BITS (13)
+
+
+
+// Number of Rows
+// Number of Columns
+
+// Number of Banks
+#define NUM_BANKS (8)
+
+// Number of Ranks
+#define NUM_RANKS (1)
+
+// Number of channels
+#define NUM_CHANNELS (1)
 
 #endif

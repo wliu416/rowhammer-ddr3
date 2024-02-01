@@ -85,5 +85,17 @@ static inline void clflush(void *v) {
   asm volatile ("clflush 0(%0)": : "r" (v):);
 }
 
+/* Ensure all instructions execute before before anything else can exec. */
+static inline void mfence()
+{
+  asm volatile ("mfence"
+		: /*output*/
+		: /*input*/
+		: /*clobbers*/ );
+}
+
+
+
+
 #endif // _UTILITY_H__ 
 

@@ -144,17 +144,17 @@ uint64_t phys_to_virt(uint64_t phys_addr) {
  *
  */
 uint64_t measure_bank_latency(uint64_t addr_A, uint64_t addr_B) {
-  clflush(addr_A);
-  clflush(addr_B);
+  clflush(&addr_A);
+  clflush(&addr_B);
 
-  maccess(addr_A);  
-  clflush(addr_A);
+  one_block_access(addr_A);  
+  clflush(&addr_A);
 
   lfence();
   uint32_t t1 = rdtscp();
 
-  (*addr_A);
-  (*addr_B);
+  one_block_access(addr_A);  
+  one_block_access(addr_B);  
 
   lfence();
   uint32_t t2 = rdtscp();
