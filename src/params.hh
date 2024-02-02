@@ -7,6 +7,9 @@
 // Size of hugepages in system
 #define HUGE_PAGE_SIZE (1 << 21)
 
+// Size of regular pages in the system
+#define PAGE_SIZE (1 << 12)
+
 // Number of offset bits
 #define PAGE_OFFSET_BITS 12
 

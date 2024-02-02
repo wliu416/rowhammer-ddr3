@@ -33,7 +33,7 @@ uint64_t get_offset(uint64_t addr) {
  */
 void setup_PPN_VPN_map(void * mem_map, uint64_t memory_size) {
 
-  for (uint64_t i = 0; i < memory_size; i += HUGE_PAGE_SIZE) {
+  for (uint64_t i = 0; i < memory_size; i += PAGE_SIZE) {
     uint64_t * addr = (uint64_t *) ((uint8_t *) (mem_map) + i);
     uint64_t virtual_page_number = get_frame_number((uint64_t)addr);
     uint64_t physical_page_number = get_frame_number(virt_to_phys((uint64_t)addr));
@@ -54,10 +54,10 @@ void setup_PPN_VPN_map(void * mem_map, uint64_t memory_size) {
  */
 void * allocate_pages(uint64_t memory_size) {
   void * memory_block = mmap(NULL, memory_size, PROT_READ | PROT_WRITE,
-      MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE | MAP_HUGETLB, -1, 0);
+      MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE , -1, 0);
   assert(memory_block != (void*) - 1);
 
-  for (uint64_t i = 0; i < memory_size; i += HUGE_PAGE_SIZE) {
+  for (uint64_t i = 0; i < memory_size; i += PAGE_SIZE) {
     uint64_t * addr = (uint64_t *) ((uint8_t *) (memory_block) + i);
     *addr = i;
   } 
@@ -84,8 +84,8 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
 
   // TODO: Exercise 1-1
   // Compute the virtual page number from the virtual address
-  uint64_t virt_page_number = virt_addr / HUGE_PAGE_SIZE;
-  uint64_t file_offset = get_offset(phys_addr);
+  uint64_t virt_page_number = get_frame_number(virt_addr);
+  uint64_t file_offset = get_offset(virt_addr);
 
   if ((pagemap = fopen("/proc/self/pagemap", "r"))) {
     if (lseek(fileno(pagemap), file_offset, SEEK_SET) == file_offset) {
