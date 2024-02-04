@@ -5,7 +5,7 @@ latency = []
 count = []
 
 # Read data from the file
-with open('data/histogram.out', 'r') as file:
+with open('../data/histogram.out', 'r') as file:
     lines = file.readlines()
     # skip the headers and all and start reading (so skip 4 lines)
     for line in lines[4:]:
