@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
         for (int j = 0; j < SAMPLES; j++) {
             time += measure_bank_latency((uint64_t)base, (uint64_t)(base + i * ROW_SIZE));
         }
-        double avg_time = (double) ((double) time / SAMPLES);
+        double avg_time = (double) ( time / (float) SAMPLES);
         bank_lat_histogram[(int) (avg_time / 10)]++;
     }
 
