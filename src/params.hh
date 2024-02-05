@@ -36,6 +36,8 @@
 #define ADDR_BIT_XOR_BITS (13)
 
 
+#define BUCKET_LAT_STEP (20)
+#define NUM_LAT_BUCKETS (50)
 
 // Number of Rows
 // Number of Columns
