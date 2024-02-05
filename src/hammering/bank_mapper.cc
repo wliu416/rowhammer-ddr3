@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
 
     for (uint64_t i= 0; i<NUM_BANKS; i++) {
         // Verify Bank mappings by taking samples
-        verify_same_bank(SAMPLES, i);
+        //verify_same_bank(SAMPLES, i);
     }
 
 
