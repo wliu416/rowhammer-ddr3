@@ -1,11 +1,14 @@
 CC=g++
 
-all: bin bin/histogram bin/bank_mapper
+all: bin bin/histogram bin/histogram2 bin/bank_mapper
 clean:
 	rm -rf bin/
 
 bin/histogram: src/histogram/histogram.cc src/shared.cc src/shared.hh src/params.hh src/util.hh
 	$(CC) -std=c++11 -g -O0 -o $@ src/histogram/histogram.cc src/util.hh src/shared.cc
+
+bin/histogram2: src/histogram/histogram2.cc src/shared.cc src/shared.hh src/params.hh src/util.hh
+	$(CC) -std=c++11 -g -O0 -o $@ src/histogram/histogram2.cc src/util.hh src/shared.cc
 
 bin/histogram_alt: src/histogram/histogram.cc src/shared.cc src/shared.hh src/params.hh src/util.hh
 	$(CC) -std=c++11 -g -O0 -c src/histogram/histogram.cc -o bin/histogram.o
