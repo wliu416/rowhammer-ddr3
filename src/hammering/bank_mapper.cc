@@ -118,7 +118,17 @@ int main(int argc, char **argv) {
 
     for (uint64_t i= 0; i<NUM_BANKS; i++) {
         // Verify Bank mappings by taking samples
-        fprintf(stdout, "Bank %d, Addrs: %s", i ,bank_to_physaddr_map[i]);
+
+        
+        std::stringstream ss;
+        for(size_t i = 0; i < bank_to_physaddr_map.size(); ++i) {
+            if(i != 0){
+                ss << ",";
+            }
+            ss << bank_to_physaddr_map[i];
+        }
+        std::string s = ss.str();
+        fprintf(stdout, "Bank %d, Addrs: %s", i ,s);
     }
 
     for (uint64_t i= 0; i<NUM_BANKS; i++) {
