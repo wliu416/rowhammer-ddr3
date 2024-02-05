@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
         // }
         // std::string s = ss.str();
         for(uint64_t j = 0; j < bank_to_physaddr_map.size();j++) {
-            fprintf(stdout, "Bank %d, Addr: %lu", i , bank_to_physaddr_map[j]);
+            fprintf(stdout, "Bank %ld, Addr: %lu", i , bank_to_physaddr_map[j]);
         }
         
     }
