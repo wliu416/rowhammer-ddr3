@@ -26,7 +26,7 @@
 // TODO: RUN HISTOGRAM!
 // Latency Threshold for Row Buffer Hit
 #define ROW_BUFFER_HIT_LATENCY (290)
-
+#define PAGE_SIZE_BITS (12)
 
 
 // ROW BITS: DETERMINED BY decode-dimm.

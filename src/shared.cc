@@ -32,13 +32,13 @@ uint64_t get_offset(uint64_t addr) {
  *
  */
 void setup_PPN_VPN_map(void * mem_map, uint64_t memory_size) {
-
-  for (uint64_t i = 0; i < memory_size; i += PAGE_SIZE) {
-    uint64_t * addr = (uint64_t *) ((uint8_t *) (mem_map) + i);
-    uint64_t virtual_page_number = get_frame_number((uint64_t)addr);
-    uint64_t physical_page_number = get_frame_number(virt_to_phys((uint64_t)addr));
-    PPN_VPN_map[physical_page_number] = virtual_page_number;
-  } 
+  
+    for (uint64_t i = 0; i < memory_size; i += PAGE_SIZE) {
+        uint64_t * addr = (uint64_t *) ((uint8_t *) (mem_map) + i);
+        uint64_t vpn = get_frame_number((uint64_t)addr);
+        uint64_t ppn = get_frame_number(virt_to_phys((uint64_t)addr));
+        PPN_VPN_map[ppn] = vpn;
+    } 
 }
 
 /*
@@ -77,33 +77,31 @@ void * allocate_pages(uint64_t memory_size) {
  */
 
 uint64_t virt_to_phys(uint64_t virt_addr) {
-  uint64_t phys_addr;
+    uint64_t phys_addr = 0;
 
-  FILE * pagemap;
-  uint64_t entry;
+    FILE * pagemap;
+    uint64_t entry;
 
-  // TODO: Exercise 1-1
-  // Compute the virtual page number from the virtual address
-  uint64_t virt_page_number = get_frame_number(virt_addr);
-  uint64_t file_offset = get_offset(virt_addr);
+    // Compute the virtual page number from the virtual address
+    uint64_t virt_page_offset = get_offset(virt_addr);
+    uint64_t virt_page_number = get_frame_number(virt_addr);
+    uint64_t file_offset = virt_page_number * sizeof(uint64_t);
 
-  if ((pagemap = fopen("/proc/self/pagemap", "r"))) {
-    if (lseek(fileno(pagemap), file_offset, SEEK_SET) == file_offset) {
-      if (fread(&entry, sizeof(uint64_t), 1, pagemap)) {
-        if (entry & (1ULL << 63)) { 
-          uint64_t phys_page_number = entry & ((1ULL << 54) - 1);
-          // TODO: Exercise 1-1
-          // Using the extracted physical page number, derive the physical address
-          phys_addr = (phys_page_number << 12) | file_offset;
-        } 
-      }
+    if ((pagemap = fopen("/proc/self/pagemap", "r"))) {
+        if (lseek(fileno(pagemap), file_offset, SEEK_SET) == file_offset) {
+            if (fread(&entry, sizeof(uint64_t), 1, pagemap)) {
+                // 1ULL = 1 unsigned long long
+                if (entry & (1ULL << 63)) { 
+                    uint64_t phys_page_number = entry & ((1ULL << 54) - 1);
+                    phys_addr = (phys_page_number << PAGE_SIZE_BITS) | virt_page_offset;
+                } 
+            }
+        }
+        fclose(pagemap);
     }
-    fclose(pagemap);
-  }
 
-  return phys_addr;
+    return phys_addr;
 }
-
 /*
  * phys_to_virt
  *
@@ -118,20 +116,15 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
  */
 
 uint64_t phys_to_virt(uint64_t phys_addr) {
-  // TODO: Exercise 1-3
-  uint64_t phys_page_number = get_frame_number(phys_addr);
-  uint64_t file_offset = get_offset(phys_addr);
-  uint64_t virt_page_number = 0;
-
-  virt_page_number = PPN_VPN_map[phys_page_number];
-  
-  if (virt_page_number == 0) {
-    return 0;
-  }
-  uint64_t virt_addr = (virt_page_number << 12) | file_offset;
-  return virt_addr;
+    uint64_t virt_addr = 0;
+    uint64_t ppn = get_frame_number(phys_addr);
+    uint64_t offset = get_offset(phys_addr);
+    uint64_t vpn = PPN_VPN_map[ppn];
+    if (vpn != 0) {
+        virt_addr = (vpn << PAGE_SIZE_BITS) | offset;
+    }
+    return virt_addr;
 }
-
 /*
  * measure_bank_latency
  *
