@@ -30,5 +30,5 @@ int main(int argc, char **argv) {
         printf("[%d-%d)   \t %15lu \n",
 	    i*10, i*10 + 10, bank_lat_histogram[i]);
     }
-    printf("%d+   \t %15lu \n",100*10, bank_lat_histogram[101]);
+    printf("%d+   \t %15lu \n",100*10, bank_lat_histogram[100]);
 }
