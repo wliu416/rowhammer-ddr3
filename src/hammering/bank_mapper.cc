@@ -125,7 +125,7 @@ void verify_same_bank(uint64_t samples, uint64_t bank_no) {
 
 int main(int argc, char **argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
-    uint64_t mem_size = (uint64_t) 1.8 * BUFFER_SIZE_MB * 1024 * 1024;
+    uint64_t mem_size = (uint64_t) (1.8 * BUFFER_SIZE_MB * (1024 * 1024));
     allocated_mem = allocate_pages(mem_size);
     setup_PPN_VPN_map(allocated_mem, mem_size);
 
