@@ -120,15 +120,18 @@ int main(int argc, char **argv) {
         // Verify Bank mappings by taking samples
 
         
-        std::stringstream ss;
-        for(size_t i = 0; i < bank_to_physaddr_map.size(); ++i) {
-            if(i != 0){
-                ss << ",";
-            }
-            ss << bank_to_physaddr_map[i];
+        // std::stringstream ss;
+        // for(size_t i = 0; i < bank_to_physaddr_map.size(); ++i) {
+        //     if(i != 0){
+        //         ss << ",";
+        //     }
+        //     ss << bank_to_physaddr_map[i];
+        // }
+        // std::string s = ss.str();
+        for(uint64_t j = 0; j < bank_to_physaddr_map.size();j++) {
+            fprintf(stdout, "Bank %d, Addr: %lu", i , bank_to_physaddr_map[j]);
         }
-        std::string s = ss.str();
-        fprintf(stdout, "Bank %d, Addrs: %s", i ,s);
+        
     }
 
     for (uint64_t i= 0; i<NUM_BANKS; i++) {
