@@ -118,6 +118,11 @@ int main(int argc, char **argv) {
 
     for (uint64_t i= 0; i<NUM_BANKS; i++) {
         // Verify Bank mappings by taking samples
+        fprintf(stdout, "Bank %d, Addrs: %s", i ,bank_to_physaddr_map[i]);
+    }
+
+    for (uint64_t i= 0; i<NUM_BANKS; i++) {
+        // Verify Bank mappings by taking samples
         verify_same_bank(SAMPLES, i);
     }
 
