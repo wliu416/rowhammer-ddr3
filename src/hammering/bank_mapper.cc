@@ -19,6 +19,9 @@ void get_bank_mapping(void * allocated_mem, uint64_t buffer_size_bytes) {
         uint64_t virt_addr = (uint64_t) base + i*ROW_SIZE;
         uint64_t phys_addr = virt_to_phys(virt_addr);
         physaddr_bankno_map[phys_addr] = 0;
+        fprintf(stdout, "=========================================================\n");
+        fprintf(stdout, "Phys Addr: {%lx}, Bank Preset: {%lu}\n", phys_addr, physaddr_bankno_map[phys_addr]);
+        fprintf(stdout, "=========================================================\n");
     }
 
 
@@ -30,15 +33,15 @@ void get_bank_mapping(void * allocated_mem, uint64_t buffer_size_bytes) {
             uint64_t bank1 = addr_1->second;
             uint64_t bank2 = addr_2->second;
             fprintf(stdout, "=========================================================\n");
-            fprintf(stdout, "Addr 1: Bank [%lu]: Phys Address: {%lu}\n", bank1, paddr1);
-            fprintf(stdout, "Addr 2: Bank [%lu]: Phys Address: {%lu}\n", bank2, paddr2);
+            fprintf(stdout, "Addr 1: Bank [%lu]: Phys Address: {%lx}\n", bank1, paddr1);
+            fprintf(stdout, "Addr 2: Bank [%lu]: Phys Address: {%lx}\n", bank2, paddr2);
             fprintf(stdout, "=========================================================\n");
 
             // Extract virtual addresses i and j
             uint64_t vaddr1 = phys_to_virt(paddr1);
             uint64_t vaddr2 = phys_to_virt(paddr2);
 
-            fprintf(stdout, "Vaddr1 [%lu]: Vaddr2: {%lu}", vaddr1, vaddr2);
+            fprintf(stdout, "Vaddr1 [%lu]: Vaddr2: {%lx}", vaddr1, vaddr2);
             fprintf(stdout, "=========================================================\n");
             fprintf(stdout, "\n\n");
 
@@ -74,7 +77,7 @@ void create_banktoaddr_map() {
         uint64_t address = pair.first;
         uint64_t bank = pair.second;
         fprintf(stdout, "=========================================================\n");
-        fprintf(stdout, "Bank [%lu]: Address: {%lu}\n", bank, address);
+        fprintf(stdout, "Bank [%lu]: Address: {%lx}\n", bank, address);
         fprintf(stdout, "=========================================================\n");
         fprintf(stdout, "\n\n");
         // Check if the bank already exists in the bank-to-addresses map
@@ -106,10 +109,10 @@ void verify_same_bank(uint64_t samples, uint64_t bank_no) {
         uint64_t time = measure_bank_latency(vaddr1 , vaddr2);
 
         if (time >= ROW_BUFFER_HIT_LATENCY && time < ROW_BUFFER_CONFLICT_LATENCY) {
-            fprintf(stdout, "A: {%lu}, B: {%lu}, Latency: {%lu}. NOT IN SAME BANK DESPITE BEING SORTED AS SO", paddr_1, paddr_2, time);
+            fprintf(stdout, "A: {%lx}, B: {%lx}, Latency: {%lu}. NOT IN SAME BANK DESPITE BEING SORTED AS SO", paddr_1, paddr_2, time);
         }
         if (time >= ROW_BUFFER_CONFLICT_LATENCY) {
-            fprintf(stdout, "A: {%lu}, B: {%lu}, Latency: {%lu}. IN SAME BANK AND BEING SORTED AS SO", paddr_1, paddr_2, time);
+            fprintf(stdout, "A: {%lx}, B: {%lx}, Latency: {%lu}. IN SAME BANK AND BEING SORTED AS SO", paddr_1, paddr_2, time);
         }
 
     }
