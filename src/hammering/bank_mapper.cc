@@ -128,7 +128,7 @@ int main(int argc, char **argv) {
         //     ss << bank_to_physaddr_map[i];
         // }
         // std::string s = ss.str();
-        for(uint64_t j = 0; j < bank_to_physaddr_map.size();j++) {
+        for(uint64_t j = 0; j < bank_to_physaddr_map[i].size();j++) {
             fprintf(stdout, "Bank %ld, Addr: %lx", i , bank_to_physaddr_map[i][j]);
         }
         
