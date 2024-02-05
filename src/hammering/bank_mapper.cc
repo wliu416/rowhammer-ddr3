@@ -29,10 +29,22 @@ void get_bank_mapping(void * allocated_mem, uint64_t buffer_size_bytes) {
             uint64_t paddr2 = addr_2->first;
             uint64_t bank1 = addr_1->second;
             uint64_t bank2 = addr_2->second;
+            fprintf(stdout, "=========================================================\n");
+            fprintf(stdout, "Addr 1: Bank [%lu]: Phys Address: {%lu}\n", bank1, paddr1);
+            fprintf(stdout, "Addr 2: Bank [%lu]: Phys Address: {%lu}\n", bank2, paddr2);
+            fprintf(stdout, "=========================================================\n");
 
             // Extract virtual addresses i and j
             uint64_t vaddr1 = phys_to_virt(paddr1);
             uint64_t vaddr2 = phys_to_virt(paddr2);
+
+            fprintf(stdout, "Vaddr1 [%lu]: Vaddr2: {%lu}", vaddr1, vaddr2);
+            fprintf(stdout, "=========================================================\n");
+            fprintf(stdout, "\n\n");
+
+            if (vaddr1 == 0 || vaddr2 == 0) {
+                continue;
+            }
 
             uint64_t time = measure_bank_latency(vaddr1 , vaddr2);
             
@@ -59,8 +71,12 @@ void create_banktoaddr_map() {
     }
 
     for (const auto& pair : physaddr_bankno_map) {
-        int address = pair.first;
-        int bank = pair.second;
+        uint64_t address = pair.first;
+        uint64_t bank = pair.second;
+        fprintf(stdout, "=========================================================\n");
+        fprintf(stdout, "Bank [%lu]: Address: {%lu}\n", bank, address);
+        fprintf(stdout, "=========================================================\n");
+        fprintf(stdout, "\n\n");
         // Check if the bank already exists in the bank-to-addresses map
         
         // Add the address to the vector of addresses for the corresponding bank
@@ -110,30 +126,17 @@ int main(int argc, char **argv) {
     allocated_mem = allocate_pages(mem_size);
     setup_PPN_VPN_map(allocated_mem, mem_size);
 
+    fprintf(stdout, "Setting Up Everything Complete\n");
     // Get the address to bank mapping completely filled up
+    fprintf(stdout, "Getting Bank Mapping\n");
     get_bank_mapping(allocated_mem, mem_size);
 
+    fprintf(stdout, "Reversing Bank to Address Mapping\n");
     // Reverse the a2b map to b2a.
     create_banktoaddr_map();
 
-    for (uint64_t i= 0; i<NUM_BANKS; i++) {
-        // Verify Bank mappings by taking samples
 
-        
-        // std::stringstream ss;
-        // for(size_t i = 0; i < bank_to_physaddr_map.size(); ++i) {
-        //     if(i != 0){
-        //         ss << ",";
-        //     }
-        //     ss << bank_to_physaddr_map[i];
-        // }
-        // std::string s = ss.str();
-        for(uint64_t j = 0; j < bank_to_physaddr_map[i].size();j++) {
-            fprintf(stdout, "Bank %ld, Addr: %lx", i , bank_to_physaddr_map[i][j]);
-        }
-        
-    }
-
+    fprintf(stdout, "TBD: Verify Bank to Address Mapping\n");
     for (uint64_t i= 0; i<NUM_BANKS; i++) {
         // Verify Bank mappings by taking samples
         //verify_same_bank(SAMPLES, i);
