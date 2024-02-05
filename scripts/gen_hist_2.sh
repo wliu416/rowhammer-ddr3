@@ -14,4 +14,4 @@ echo "python3 $SOURCE/../src/histogram/histogram2.py"
 python3 $SOURCE/../src/histogram/histogram2.py
 
 echo "cat $SOURCE/../data/histogram2.out"
-cat $SOURCE/../data/histogram.out
+cat $SOURCE/../data/histogram2.out

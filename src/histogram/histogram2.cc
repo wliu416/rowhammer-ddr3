@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     allocated_mem = allocate_pages(BUFFER_SIZE_MB);
     uint64_t* bank_lat_histogram = (uint64_t*) calloc((NUM_LAT_BUCKETS+1), sizeof(uint64_t));
     
-    const long int num_iterations = BUFFER_SIZE_MB / ROW_SIZE;
+    const long int num_iterations = (uint64_t) BUFFER_SIZE_MB * (1024*1024) / ROW_SIZE;
     char *base = (char *)allocated_mem;
     for (int i = 1; i < num_iterations; i++) {
         uint64_t time = 0;
