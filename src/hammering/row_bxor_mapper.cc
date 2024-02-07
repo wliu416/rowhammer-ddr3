@@ -102,13 +102,13 @@ int main(int argc, char **argv) {
             fprintf(stdout, "=========================================================\n");
             if (avg_time >= ROW_BUFFER_CONFLICT_LATENCY) {
                 fprintf(stdout, "Addr Original: {%lx}\n", curr_row_paddr);
-                fprintf(stdout, "BXOR Bit +{%d}. BXOR bits now [%d] \n", k, bxor_bits);
+                fprintf(stdout, "BXOR Bit +{%d}. BXOR bits now [%ld] \n", k, bxor_bits);
                 fprintf(stdout, "Addr Changed: {%lx}\n", conflict_row_paddr);
                 fprintf(stdout, "Timing >= 390 Cycles: CONFLICT: [%f] Cycles \n", avg_time);
 
             } else {
                 fprintf(stdout, "Addr Original: {%lx}\n", curr_row_paddr);
-                fprintf(stdout, "BXOR Bit +{%d}. BXOR bits now [%d] \n", k, bxor_bits);
+                fprintf(stdout, "BXOR Bit +{%d}. BXOR bits now [%ld] \n", k, bxor_bits);
                 fprintf(stdout, "Addr Changed: {%lx}\n", conflict_row_paddr);
                 fprintf(stdout, "Timing < 390 Cycles: NO CONFLICT: [%f] Cycles \n", avg_time);
             }
