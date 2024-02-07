@@ -25,9 +25,14 @@ int main(int argc, char **argv) {
     char *base = (char *)allocated_mem;
     for (int i = 1; i < num_iterations; i++) {
 
+        //if (i >= 15000) {
+            // Run only 15000 rows for sanity
+            // break;
+        //}
+
         uint64_t curr_row = (uint64_t ) (base + i * ROW_SIZE);
         uint64_t curr_row_paddr = virt_to_phys(curr_row);
-        fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n", curr_row, curr_row_paddr);
+        fprintf(stdout, "<Current Row: %lx>: Physical Address: [%lx]\n", curr_row, curr_row_paddr);
 
         for (int k = 0; k < 8; k++) {
 
@@ -35,6 +40,8 @@ int main(int argc, char **argv) {
             uint64_t conflict_row_no = (uint64_t) ((curr_row_paddr >> 16) + k);
             uint64_t conflict_row_paddr = (conflict_row_no << 16) + bxor_col_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
+
+            fprintf(stdout, "Combining Col Bits: [%lx], Row No: [%lx], Reassembled PAddr: {%lx}", bxor_col_bits, conflict_row_no, conflict_row_paddr);
 
             if (conflict_row == 0) {
                 fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);
@@ -87,6 +94,9 @@ int main(int argc, char **argv) {
             uint64_t bxor_bits = (uint64_t) ((bank_xor_bits + k)%8); // Test all 8 flips so use mod 8
             uint64_t conflict_row_paddr = (row_bits << 16) + (bxor_bits << 13) + column_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
+
+            fprintf(stdout, "Combining Col Bits: [%lx], Row Bits: [%lx], BXOR Bits: [%lx], Reassembled PAddr: {%lx}", column_bits, row_bits, bxor_bits, conflict_row_paddr);
+
 
             if (conflict_row == 0) {
                 fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);

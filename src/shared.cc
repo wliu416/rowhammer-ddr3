@@ -94,12 +94,18 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
                 if (entry & (1ULL << 63)) { 
                     uint64_t phys_page_number = entry & ((1ULL << 54) - 1);
                     phys_addr = (phys_page_number << PAGE_SIZE_BITS) | virt_page_offset;
-                } 
+                } else {
+                    fprintf(stdout, "Entry Invalid. %lx\n", entry);
+                }
+            } else {
+                fprintf(stdout, "Something went wrong. fread() call failed!\n");
             }
+        } else {
+            fprintf(stdout, "Something went wrong. lseek() call failed!\n");
         }
         fclose(pagemap);
     } else {
-        fprintf(stdout, "Something went wrong. Pagemap unable to be opened!");
+        fprintf(stdout, "Something went wrong. Pagemap unable to be opened!\n");
     }
 
     return phys_addr;
