@@ -93,6 +93,9 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
         if (lseek(fileno(pagemap), file_offset, SEEK_SET) == file_offset) {
             if (fread(&entry, sizeof(uint64_t), 1, pagemap)) {
                 // 1ULL = 1 unsigned long long
+                // TODO: REMOVE! TESTING ATM
+                fprintf(stdout, "Entry. %lx\n", entry);
+                sleep(600);
                 if (entry & (1ULL << 63)) { 
                     uint64_t phys_page_number = entry & ((1ULL << 54) - 1);
                     phys_addr = (phys_page_number << PAGE_SIZE_BITS) | virt_page_offset;
