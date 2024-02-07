@@ -11,11 +11,11 @@ void * allocated_mem;
 
 // Shubh's starters:
 uint64_t get_frame_number(uint64_t addr) {
-    return addr >> 12;
+    return (addr >> 12);
 }
 
 uint64_t get_offset(uint64_t addr) {
-    return addr & ((1ULL << 12) - 1);
+    return (addr & ((1ULL << 12) - 1));
 }
 
 /*
@@ -86,6 +86,8 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
     uint64_t virt_page_offset = get_offset(virt_addr);
     uint64_t virt_page_number = get_frame_number(virt_addr);
     uint64_t file_offset = virt_page_number * sizeof(uint64_t);
+    fprintf(stdout, "Virtual Page Number. %lx\n", virt_page_number);
+    fprintf(stdout, "Virtual Address. %lx\n", virt_addr);
 
     if ((pagemap = fopen("/proc/self/pagemap", "r"))) {
         if (lseek(fileno(pagemap), file_offset, SEEK_SET) == file_offset) {
@@ -94,6 +96,8 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
                 if (entry & (1ULL << 63)) { 
                     uint64_t phys_page_number = entry & ((1ULL << 54) - 1);
                     phys_addr = (phys_page_number << PAGE_SIZE_BITS) | virt_page_offset;
+                    fprintf(stdout, "Physical Page Number. %lx\n", phys_page_number);
+                    fprintf(stdout, "Physical Address. %lx\n", phys_addr);
                 } else {
                     fprintf(stdout, "Entry Invalid. %lx\n", entry);
                 }
