@@ -1,6 +1,6 @@
 CC=g++
 
-all: bin bin/histogram bin/bank_mapper bin/row_bxor_mapper bin/bxor_manipulation_experiment
+all: bin bin/histogram bin/bank_mapper bin/row_bxor_mapper bin/bxor_manipulation_experiment bin/pagemap
 clean:
 	rm -rf bin/
 
@@ -25,6 +25,9 @@ bin/rowmapper: src/reverse_engineering/rowmapper.cc src/shared.cc src/shared.hh 
 
 bin/hammering: src/hammering/hammering.cc src/shared.cc src/shared.hh src/params.hh src/util.hh
 	$(CC) -std=c++11 -g -O0 -o $@ src/hammering/hammering.cc src/util.hh src/shared.cc
+
+bin/pagemap: src/pagemap.cc
+	$(CC) -std=c++11 -g -O0 -o $@ src/pagemap.cc
 
 bin:
 	mkdir bin
