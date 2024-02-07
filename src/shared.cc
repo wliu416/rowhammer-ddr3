@@ -98,6 +98,8 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
             }
         }
         fclose(pagemap);
+    } else {
+        fprintf(stdout, "Something went wrong. Pagemap unable to be opened!");
     }
 
     return phys_addr;
