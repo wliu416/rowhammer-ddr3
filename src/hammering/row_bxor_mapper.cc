@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
         uint64_t curr_row = (uint64_t ) (base + i * ROW_SIZE);
         uint64_t curr_row_paddr = virt_to_phys(curr_row);
-        fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n");
+        fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n", curr_row, curr_row_paddr);
 
         for (int k = 0; k < 8; k++) {
 
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
             if (conflict_row == 0) {
-                fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", curr_row_paddr);
+                fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);
                 continue;
             }
 
@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
 
         uint64_t curr_row = (uint64_t) (base + i * ROW_SIZE);
         uint64_t curr_row_paddr = virt_to_phys(curr_row);
-        fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n");
+        fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n", curr_row, curr_row_paddr);
 
         for (int k = 0; k < 8; k++) {
 
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
             if (conflict_row == 0) {
-                fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", curr_row_paddr);
+                fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);
                 continue;
             }
 
