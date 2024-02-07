@@ -81,6 +81,9 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
 
     FILE * pagemap;
     uint64_t entry;
+    
+    uint8_t * virt_addr_pointer = reinterpret_cast<uint8_t *>(virt_addr);
+    (*virt_addr_pointer);
 
     // Compute the virtual page number from the virtual address
     uint64_t virt_page_offset = get_offset(virt_addr);

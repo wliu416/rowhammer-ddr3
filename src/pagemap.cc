@@ -20,6 +20,8 @@ char path_buf [0x100] = {};
 FILE * f;
 char *end;
 
+// https://fivelinesofcode.blogspot.com/2014/03/how-to-translate-virtual-to-physical.html
+
 int read_pagemap(char * path_buf, unsigned long virt_addr);
 
 int main(int argc, char ** argv){
