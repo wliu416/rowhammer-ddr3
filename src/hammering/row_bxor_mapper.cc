@@ -14,7 +14,7 @@ std::map<uint64_t, std::vector<uint64_t>> bank_to_physaddr_map;
 
 int main(int argc, char **argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
-    uint64_t mem_size = (uint64_t) (1.8 * BUFFER_SIZE_MB * (1024 * 1024));
+    uint64_t mem_size = (uint64_t) (0.25 * BUFFER_SIZE_MB * (1024 * 1024));
     allocated_mem = allocate_pages(mem_size);
     setup_PPN_VPN_map(allocated_mem, mem_size);
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
     const long int num_iterations = mem_size / ROW_SIZE;
     char *base = (char *)allocated_mem;
-    for (int i = 1; i < num_iterations; i++) {
+    for (int i = 1; i < num_iterations-8; i++) {
 
         //if (i >= 15000) {
             // Run only 15000 rows for sanity
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
 
 
     fprintf(stdout, "Keeping Row, Col Standard. Flipping BXOR Bits from bank 0-7...\n");
-    for (int i = 1; i < num_iterations; i++) {
+    for (int i = 1; i < num_iterations-8; i++) {
 
         uint64_t curr_row = (uint64_t) (base + i * ROW_SIZE);
         uint64_t curr_row_paddr = virt_to_phys(curr_row);
