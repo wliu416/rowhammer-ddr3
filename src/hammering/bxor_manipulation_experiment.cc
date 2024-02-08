@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
                      ((bank_xor_bits >> 1) & 1) ^ ((bits_row_bank_xor >> 1) & 1) + 
                      (bank_xor_bits & 1) ^ (bits_row_bank_xor & 1);
             
-            fprintf(stdout, "Row Bits: [%lx], BXOR Bits: [%lx], Original BXOR product [%d]\n", row_bits, bank_xor_bits, bank);
+            fprintf(stdout, "Row Bits: [%lx], BXOR Bits: [%x], Original BXOR product [%d]\n", row_bits, bank_xor_bits, bank);
 
             // Determine differences between original and new bits.
             int diff_16 = ((bits_row_bank_xor >> 2) & 1);
@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
             uint64_t conflict_row_paddr = (new_row_bits << 16) + (new_bank_xor_bits << 13) + column_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
-            fprintf(stdout, "Combining Col Bits: [%lx], Row Bits: [%lx], BXOR Bits: [%lx], Reassembled PAddr: {%lx}\n", column_bits, new_row_bits, new_bank_xor_bits, conflict_row_paddr);
+            fprintf(stdout, "Combining Col Bits: [%lx], Row Bits: [%lx], BXOR Bits: [%x], Reassembled PAddr: {%lx}\n", column_bits, new_row_bits, new_bank_xor_bits, conflict_row_paddr);
 
             if (conflict_row == 0) {
                 fprintf(stdout, "Address Does Not exist and is 0. {%lx}\n\n", curr_row_paddr);
