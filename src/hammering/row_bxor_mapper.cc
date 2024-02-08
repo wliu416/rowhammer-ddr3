@@ -32,7 +32,9 @@ int main(int argc, char **argv) {
 
         uint64_t curr_row = (uint64_t ) (base + i * ROW_SIZE);
         uint64_t curr_row_paddr = virt_to_phys(curr_row);
+        fprintf(stdout, "**************************************************\n");
         fprintf(stdout, "<Current Row: %lx>: Physical Address: [%lx]\n", curr_row, curr_row_paddr);
+        fprintf(stdout, "**************************************************\n");
 
         for (int k = 0; k < 8; k++) {
 
@@ -41,10 +43,14 @@ int main(int argc, char **argv) {
             uint64_t conflict_row_paddr = (conflict_row_no << 16) + bxor_col_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
+
+            fprintf(stdout, "=========================================================\n");
+
             fprintf(stdout, "Combining Col Bits: [%lx], Row No: [%lx], Reassembled PAddr: {%lx}\n", bxor_col_bits, conflict_row_no, conflict_row_paddr);
 
             if (conflict_row == 0) {
                 fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);
+                fprintf(stdout, "=========================================================\n");
                 continue;
             }
 
@@ -56,7 +62,6 @@ int main(int argc, char **argv) {
 
             double avg_time = (double) (time / (float) SAMPLES);
 
-            fprintf(stdout, "=========================================================\n");
             if (avg_time >= ROW_BUFFER_CONFLICT_LATENCY) {
                 fprintf(stdout, "Addr Original: {%lx}\n", curr_row_paddr);
                 fprintf(stdout, "Row Bit +{%d}: \n", k);
@@ -82,7 +87,9 @@ int main(int argc, char **argv) {
 
         uint64_t curr_row = (uint64_t) (base + i * ROW_SIZE);
         uint64_t curr_row_paddr = virt_to_phys(curr_row);
+        fprintf(stdout, "**************************************************\n");
         fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n", curr_row, curr_row_paddr);
+        fprintf(stdout, "**************************************************\n");
 
         for (int k = 0; k < 8; k++) {
 
@@ -96,11 +103,14 @@ int main(int argc, char **argv) {
             uint64_t conflict_row_paddr = (row_bits << 16) + (bxor_bits << 13) + column_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
+            fprintf(stdout, "=========================================================\n");
+
             fprintf(stdout, "Combining Col Bits: [%lx], Row Bits: [%lx], BXOR Bits: [%lx], Reassembled PAddr: {%lx}\n", column_bits, row_bits, bxor_bits, conflict_row_paddr);
 
 
             if (conflict_row == 0) {
                 fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);
+                fprintf(stdout, "=========================================================\n");
                 continue;
             }
 
@@ -112,7 +122,6 @@ int main(int argc, char **argv) {
 
             double avg_time = (double) (time / (float) SAMPLES);
 
-            fprintf(stdout, "=========================================================\n");
             if (avg_time >= ROW_BUFFER_CONFLICT_LATENCY) {
                 fprintf(stdout, "Addr Original: {%lx}\n", curr_row_paddr);
                 fprintf(stdout, "BXOR Bit +{%d}. BXOR bits now [%ld] \n", k, bxor_bits);
