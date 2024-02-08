@@ -70,6 +70,7 @@ int main(int argc, char **argv) {
                 fprintf(stdout, "Timing < 390 Cycles: NO CONFLICT: [%f] Cycles \n", avg_time);
             }
             fprintf(stdout, "=========================================================\n");
+            sleep(5); // Delay a bit
         }
         
         
@@ -125,6 +126,7 @@ int main(int argc, char **argv) {
                 fprintf(stdout, "Timing < 390 Cycles: NO CONFLICT: [%f] Cycles \n", avg_time);
             }
             fprintf(stdout, "=========================================================\n");
+            sleep(5); // Delay a bit
         }
         
         
