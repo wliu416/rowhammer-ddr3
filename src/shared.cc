@@ -89,33 +89,30 @@ uint64_t virt_to_phys(uint64_t virt_addr) {
     uint64_t virt_page_offset = get_offset(virt_addr);
     uint64_t virt_page_number = get_frame_number(virt_addr);
     uint64_t file_offset = virt_page_number * sizeof(uint64_t);
-    fprintf(stdout, "Virtual Page Number. %lx\n", virt_page_number);
-    fprintf(stdout, "Virtual Address. %lx\n", virt_addr);
+    //fprintf(stdout, "Virtual Page Number. %lx\n", virt_page_number);
+    //fprintf(stdout, "Virtual Address. %lx\n", virt_addr);
 
     if ((pagemap = fopen("/proc/self/pagemap", "r"))) {
         if (lseek(fileno(pagemap), file_offset, SEEK_SET) == file_offset) {
             if (fread(&entry, sizeof(uint64_t), 1, pagemap)) {
                 // 1ULL = 1 unsigned long long
-                // TODO: REMOVE! TESTING ATM
-                fprintf(stdout, "Entry. %lx\n", entry);
-                sleep(600);
                 if (entry & (1ULL << 63)) { 
                     uint64_t phys_page_number = entry & ((1ULL << 54) - 1);
                     phys_addr = (phys_page_number << PAGE_SIZE_BITS) | virt_page_offset;
-                    fprintf(stdout, "Physical Page Number. %lx\n", phys_page_number);
-                    fprintf(stdout, "Physical Address. %lx\n", phys_addr);
+                    //fprintf(stdout, "Physical Page Number. %lx\n", phys_page_number);
+                    //fprintf(stdout, "Physical Address. %lx\n", phys_addr);
                 } else {
-                    fprintf(stdout, "Entry Invalid. %lx\n", entry);
+                    //fprintf(stdout, "Entry Invalid. %lx\n", entry);
                 }
             } else {
-                fprintf(stdout, "Something went wrong. fread() call failed!\n");
+                //fprintf(stdout, "Something went wrong. fread() call failed!\n");
             }
         } else {
-            fprintf(stdout, "Something went wrong. lseek() call failed!\n");
+            //fprintf(stdout, "Something went wrong. lseek() call failed!\n");
         }
         fclose(pagemap);
     } else {
-        fprintf(stdout, "Something went wrong. Pagemap unable to be opened!\n");
+        //fprintf(stdout, "Something went wrong. Pagemap unable to be opened!\n");
     }
 
     return phys_addr;
