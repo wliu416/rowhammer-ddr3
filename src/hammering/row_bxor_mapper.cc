@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         fprintf(stdout, "<Current Row: %lx>: Physical Address: [%lx]\n", curr_row, curr_row_paddr);
         fprintf(stdout, "**************************************************\n");
 
-        for (int k = 0; k < 8; k++) {
+        for (int k = 1; k <= 8; k++) {
 
             uint64_t bxor_col_bits = (uint64_t) (curr_row_paddr & 0xFFFF);
             uint64_t conflict_row_no = (uint64_t) ((curr_row_paddr >> 16) + k);
@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
         fprintf(stdout, "<Current Row: %ld>: Physical Address: [%ld]\n", curr_row, curr_row_paddr);
         fprintf(stdout, "**************************************************\n");
 
-        for (int k = 0; k < 8; k++) {
+        for (int k = 1; k <= 8; k++) {
 
             uint64_t row_bits = curr_row_paddr >> 16; // Bit 16+ is for row bits
             uint64_t column_bits = curr_row_paddr & 0x1fff; // 13 col bits
