@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
             uint64_t conflict_row_paddr = (conflict_row_no << 16) + bxor_col_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
-            fprintf(stdout, "Combining Col Bits: [%lx], Row No: [%lx], Reassembled PAddr: {%lx}", bxor_col_bits, conflict_row_no, conflict_row_paddr);
+            fprintf(stdout, "Combining Col Bits: [%lx], Row No: [%lx], Reassembled PAddr: {%lx}\n", bxor_col_bits, conflict_row_no, conflict_row_paddr);
 
             if (conflict_row == 0) {
                 fprintf(stdout, "Created address Does Not exist and is 0. {%lx}\n\n", conflict_row_paddr);
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
             uint64_t conflict_row_paddr = (row_bits << 16) + (bxor_bits << 13) + column_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
 
-            fprintf(stdout, "Combining Col Bits: [%lx], Row Bits: [%lx], BXOR Bits: [%lx], Reassembled PAddr: {%lx}", column_bits, row_bits, bxor_bits, conflict_row_paddr);
+            fprintf(stdout, "Combining Col Bits: [%lx], Row Bits: [%lx], BXOR Bits: [%lx], Reassembled PAddr: {%lx}\n", column_bits, row_bits, bxor_bits, conflict_row_paddr);
 
 
             if (conflict_row == 0) {
