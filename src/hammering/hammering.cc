@@ -158,7 +158,7 @@ uint32_t hammer_addresses(uint64_t vict_virt_addr, uint64_t attacker_virt_addr_1
         );
     }
 
-    flush_row(vict_virt_addr_ptr);
+    clflush_row(vict_virt_addr_ptr);
 
     uint32_t number_of_bitflips_in_target = 0;
     for (uint32_t index = 0; index < ROW_SIZE; index++) {
@@ -206,9 +206,9 @@ void print_result(uint64_t victim, uint64_t attacker_1, uint64_t attacker_2, uin
     uint64_t x = virt_to_phys(victim);
     uint64_t a = virt_to_phys(attacker_1);
     uint64_t b = virt_to_phys(attacker_2);
-    fprintf(stdout, "victim: %s\t%ld (phys)\n", int_to_binary(x), x);
-    fprintf(stdout,"attacker 1: %s\t%ld (phys)\n", int_to_binary(a), a);
-    fprintf(stdout,"attacker 2: %s\t%ld (phys)\n", int_to_binary(b), b);
+    fprintf(stdout,"victim: %s\t%ld (phys)\n", int_to_binary(x, 33), x);
+    fprintf(stdout,"attacker 1: %s\t%ld (phys)\n", int_to_binary(a, 33), a);
+    fprintf(stdout,"attacker 2: %s\t%ld (phys)\n", int_to_binary(b, 33), b);
     fprintf(stdout,"Bit flips found: %d\n", num_bit_flips);
 }
 
