@@ -96,20 +96,7 @@ int main(int argc, char **argv) {
             uint64_t new_row_bits = (uint64_t) (row_bits + k);
             int bits_row_bank_xor = (new_row_bits & 0x7);
 
-
-            int R_original = ((bank_xor_bits>> 2) & 1) ^ ((bits_row_bank_xor >> 2) & 1) + 
-                     ((bank_xor_bits >> 1) & 1) ^ ((bits_row_bank_xor >> 1) & 1) + 
-                     (bank_xor_bits & 1) ^ (bits_row_bank_xor & 1);
-            
-            fprintf(stdout, "Row Bits: [%lx], BXOR Bits: [%x], Original BXOR product [%d]\n", row_bits, bank_xor_bits, bank);
-
-            // Determine differences between original and new bits.
-            int diff_16 = ((bits_row_bank_xor >> 2) & 1);
-            int diff_17 = ((bits_row_bank_xor >> 1) & 1);
-            int diff_18 = (bits_row_bank_xor & 1);
-
-            // Adjust bits 13-15 based on differences.
-            int new_bank_xor_bits = bank_xor_bits ^ (diff_16 << 2) ^ (diff_17 << 1) ^ diff_18;
+            int new_bank_xor_bits = bits_row_bank_xor ^ (new_row_bits & 0x7);
 
             uint64_t conflict_row_paddr = (new_row_bits << 16) + (new_bank_xor_bits << 13) + column_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);
