@@ -31,6 +31,8 @@ uint64_t phys_to_virt(uint64_t phys_addr);
 void setup_PPN_VPN_map(void * mem_map, uint64_t memory_size);
 uint64_t measure_bank_latency(uint64_t addr_A, uint64_t addr_B);
 uint64_t measure_bank_latency_2(uint64_t addr_A, uint64_t addr_B);
+uint64_t get_dram_address(uint64_t row, int bank, uint64_t col);
+char *int_to_binary(uint64_t num, int num_bits);
 
 // Helper Functions
 void * allocate_pages(uint64_t memory_size);

@@ -216,7 +216,7 @@ void print_result(uint64_t victim, uint64_t attacker_1, uint64_t attacker_2, uin
 
 int main(int argc, char **argv) {
     setvbuf(stdout, NULL, _IONBF, 0);
-    uint64_t mem_size = (uint64_t) (BUFFER_SIZE_MB * (1024 * 1024));
+    uint64_t mem_size = (uint64_t) ((uint64_t) BUFFER_SIZE_MB * (1024 * 1024));
     allocated_mem = allocate_pages(mem_size);
     setup_PPN_VPN_map(allocated_mem, mem_size);
 
