@@ -1,6 +1,6 @@
 CC=g++
 
-all: bin bin/histogram bin/bank_mapper bin/row_bxor_mapper bin/bxor_manipulation_experiment bin/pagemap
+all: bin bin/histogram bin/bank_mapper bin/row_bxor_mapper bin/bxor_manipulation_experiment bin/pagemap bin/hammering
 clean:
 	rm -rf bin/
 
