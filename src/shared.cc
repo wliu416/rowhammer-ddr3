@@ -181,3 +181,21 @@ uint64_t measure_bank_latency_2(uint64_t addr_A, uint64_t addr_B) {
   return two_maccess_t(addr_A, addr_B);
 }
 
+
+uint64_t get_dram_address(uint64_t row, int bank, uint64_t col) {
+    int bank_xor_bits = (row & 0x7) ^ bank;
+    return (row << 16) | (bank_xor_bits << 13) | col;
+}
+
+
+char *int_to_binary(uint64_t num, int num_bits) {
+    char *binary = (char *) calloc(num_bits + 1, 1);
+	
+    for (int i = num_bits - 1; i >= 0; i--) {
+        binary[i] = (num & 1) + '0';
+        num >>= 1;
+    }
+    binary[num_bits] = '\0';
+    return binary;
+}
+

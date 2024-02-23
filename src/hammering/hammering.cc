@@ -139,9 +139,9 @@ uint32_t hammer_addresses(uint64_t vict_virt_addr, uint64_t attacker_virt_addr_1
     memset(attacker_virt_addr_1_ptr, 0xAA, ROW_SIZE);
     memset(attacker_virt_addr_2_ptr, 0xAA, ROW_SIZE);
     
-    flush_row(vict_virt_addr_ptr);
-    flush_row(attacker_virt_addr_1_ptr);
-    flush_row(attacker_virt_addr_2_ptr);
+    clflush_row(vict_virt_addr_ptr);
+    clflush_row(attacker_virt_addr_1_ptr);
+    clflush_row(attacker_virt_addr_2_ptr);
   
     int num_reads = HAMMERS_PER_ITER;
 
@@ -226,7 +226,7 @@ int main(int argc, char **argv) {
 
     const long int num_iterations = mem_size / ROW_SIZE;
 
-    for (int i = 1; i < num_iterations-1, i++) {
+    for (int i = 1; i < num_iterations-1; i++) {
         victim = (uint64_t)((uint8_t *)allocated_mem + ROW_SIZE * i);
         // row + 1, row - 1
         if (get_addresses_to_hammer(virt_to_phys(victim), attacker_1, attacker_2, 1)) {
@@ -236,7 +236,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    for (int i = 2; i < num_iterations-2, i++) {
+    for (int i = 2; i < num_iterations-2; i++) {
         victim = (uint64_t)((uint8_t *)allocated_mem + ROW_SIZE * i);
         // row + 2, row - 2
         if (get_addresses_to_hammer(virt_to_phys(victim), attacker_1, attacker_2, 2)) {
