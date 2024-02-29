@@ -265,14 +265,20 @@ int main(int argc, char **argv) {
 
     const long int num_iterations = mem_size / ROW_SIZE;
 
+    fprintf(stdout, "=========================================================\n");
+    fprintf(stdout, "Row +1, -1\n");
+    fprintf(stdout, "=========================================================\n");
+
     for (int i = 1; i < num_iterations-1; i++) {
         victim = (uint64_t)((uint8_t *)allocated_mem + ROW_SIZE * i);
+        
         // row + 1, row - 1
         if (get_addresses_to_hammer(virt_to_phys(victim), attacker_1, attacker_2, 1)) {
             uint32_t num_bit_flips = hammer_addresses(victim, *attacker_1, *attacker_2);
             //print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
             //if (num_bit_flips > 0) break;
             if (num_bit_flips > 0) {
+                fprintf(stdout, "=========================================================\n");
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
                 fprintf(stdout, "Bit Flips Found. Reproducing Bit Flips.\n");
                 uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
@@ -280,9 +286,14 @@ int main(int argc, char **argv) {
                 fprintf(stdout, "Try again? Reproducing Bit Flips.\n");
                 uint32_t num_bit_flips3 = hammer_addresses(victim, *attacker_1, *attacker_2);
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips3);
+                fprintf(stdout, "=========================================================\n");
             }
         }
     }
+
+    fprintf(stdout, "=========================================================\n");
+    fprintf(stdout, "Row +2, -2\n");
+    fprintf(stdout, "=========================================================\n");
 
     for (int i = 2; i < num_iterations-2; i++) {
         victim = (uint64_t)((uint8_t *)allocated_mem + ROW_SIZE * i);
@@ -290,6 +301,7 @@ int main(int argc, char **argv) {
         if (get_addresses_to_hammer(virt_to_phys(victim), attacker_1, attacker_2, 2)) {
             uint32_t num_bit_flips = hammer_addresses(victim, *attacker_1, *attacker_2);
             if (num_bit_flips > 0) {
+                fprintf(stdout, "=========================================================\n");
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
                 fprintf(stdout, "Bit Flips Found. Reproducing Bit Flips.\n");
                 uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
@@ -297,6 +309,7 @@ int main(int argc, char **argv) {
                 fprintf(stdout, "Try again? Reproducing Bit Flips.\n");
                 uint32_t num_bit_flips3 = hammer_addresses(victim, *attacker_1, *attacker_2);
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips3);
+                fprintf(stdout, "=========================================================\n");
 
             }
             //if (num_bit_flips > 0) break;
