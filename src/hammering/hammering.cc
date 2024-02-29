@@ -274,12 +274,12 @@ int main(int argc, char **argv) {
             //if (num_bit_flips > 0) break;
             if (num_bit_flips > 0) {
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
-                fprintf("Bit Flips Found. Reproducing Bit Flips.\n");
+                fprintf(stdout, "Bit Flips Found. Reproducing Bit Flips.\n");
                 uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
-                fprintf("Try again? Reproducing Bit Flips.\n");
-                uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
-                print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
+                fprintf(stdout, "Try again? Reproducing Bit Flips.\n");
+                uint32_t num_bit_flips3 = hammer_addresses(victim, *attacker_1, *attacker_2);
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips3);
             }
         }
     }
@@ -291,12 +291,12 @@ int main(int argc, char **argv) {
             uint32_t num_bit_flips = hammer_addresses(victim, *attacker_1, *attacker_2);
             if (num_bit_flips > 0) {
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
-                fprintf("Bit Flips Found. Reproducing Bit Flips.\n");
+                fprintf(stdout, "Bit Flips Found. Reproducing Bit Flips.\n");
                 uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
                 print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
-                fprintf("Try again? Reproducing Bit Flips.\n");
-                uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
-                print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
+                fprintf(stdout, "Try again? Reproducing Bit Flips.\n");
+                uint32_t num_bit_flips3 = hammer_addresses(victim, *attacker_1, *attacker_2);
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips3);
 
             }
             //if (num_bit_flips > 0) break;
