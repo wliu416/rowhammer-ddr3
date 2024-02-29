@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
             uint64_t new_row_bits = (uint64_t) (row_bits + k);
             int bits_row_bank_xor = (new_row_bits & 0x7);
 
-            int new_bank_xor_bits = bits_row_bank_xor ^ (new_row_bits & 0x7);
+            int new_bank_xor_bits = bank ^ (new_row_bits & 0x7);
 
             uint64_t conflict_row_paddr = (new_row_bits << 16) + (new_bank_xor_bits << 13) + column_bits; 
             uint64_t conflict_row = phys_to_virt(conflict_row_paddr);

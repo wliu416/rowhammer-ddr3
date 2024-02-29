@@ -224,13 +224,13 @@ int get_addresses_to_hammer(uint64_t victim_phys_addr, uint64_t *attacker_1, uin
         uint64_t new_row_bits1 = (uint64_t) (row_bits + row_diff);
         int bits_row_bank_xor1 = (new_row_bits1 & 0x7);
 
-        int new_bank_xor_bits1 = new_row_bits1 ^ bits_row_bank_xor1;
+        int new_bank_xor_bits1 = bank ^ bits_row_bank_xor1;
 
 
         uint64_t new_row_bits2 = (uint64_t) (row_bits - row_diff);
         int bits_row_bank_xor2 = (new_row_bits2 & 0x7);
 
-        int new_bank_xor_bits2 = new_row_bits2 ^ bits_row_bank_xor2;
+        int new_bank_xor_bits2 = bank ^ bits_row_bank_xor2;
 
 
         *attacker_1 = phys_to_virt(get_dram_address(new_row_bits1, new_bank_xor_bits1, column_bits));
